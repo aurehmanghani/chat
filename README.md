@@ -1,29 +1,18 @@
 # Chat API
 
-A Spring Boot backend for managing chat sessions and messages with full CRUD operations, health checks, and Swagger documentation.
+A Spring Boot backend for managing chat sessions and messages with health checks and Swagger documentation.
 
 ---
 
 ## Table of Contents
 
-- [Features](#features)  
 - [API Endpoints](#api-endpoints)  
   - [Sessions](#sessions)  
   - [Messages](#messages)  
   - [Health](#health)  
-- [Swagger Documentation](#swagger-documentation)  
+- [Docs](#docs)  
 - [Getting Started](#getting-started)  
-- [Running with Docker](#running-with-docker)
-
----
-
-## Features
-
-- Create, read, update, delete chat sessions and messages
-- Soft and hard deletes for sessions
-- Pagination support for listing sessions and messages
-- Health checks: full, readiness, and liveness
-- Swagger/OpenAPI documentation
+- [Running with Docker](#running-with-docker)  
 
 ---
 
@@ -33,18 +22,42 @@ A Spring Boot backend for managing chat sessions and messages with full CRUD ope
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/sessions` | Create a new chat session |
-| GET | `/api/sessions?user_id={userId}&page=1&limit=50&include_deleted=false` | List chat sessions for a user |
-| GET | `/api/sessions/{sessionId}?user_id={userId}` | Get a session by ID |
+| POST | `/api/sessions` | Create new chat session |
+| GET | `/api/sessions?user_id={userId}&page=1&limit=50&include_deleted=false` | List sessions |
+| GET | `/api/sessions/{sessionId}?user_id={userId}` | Get session by ID |
 | PATCH | `/api/sessions/{sessionId}` | Update session (title / favorite flag) |
-| DELETE | `/api/sessions/{sessionId}?user_id={userId}&hard_delete=false` | Soft or hard delete a session |
+| DELETE | `/api/sessions/{sessionId}?user_id={userId}&hard_delete=false` | Soft or hard delete |
 
-#### Example: Create a session
+### Messages
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/messages` | Create message (user/assistant) |
+| GET | `/api/messages/session/{sessionId}?user_id={userId}&page=1&limit=100` | List messages for a session |
+| GET | `/api/messages/{messageId}?user_id={userId}` | Get message by ID |
+| PATCH | `/api/messages/{messageId}` | Update message (content/context/metadata) |
+| DELETE | `/api/messages/{messageId}?user_id={userId}` | Delete message |
+
+### Health
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Full health check |
+| GET | `/api/health/ready` | Readiness probe |
+| GET | `/api/health/live` | Liveness probe |
+
+---
+
+## Docs
+
+- **Swagger UI:** `/swagger-ui.html`
+
+---
+
+## Getting Started
+
+1. Clone the repository:
+
 ```bash
-POST /api/sessions
-Content-Type: application/json
-
-{
-  "userId": "12345",
-  "title": "New Chat Session"
-}
+git clone https://github.com/your-username/rag-chat-springboot.git
+cd rag-chat-springboot
